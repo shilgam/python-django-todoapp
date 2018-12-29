@@ -37,3 +37,13 @@ Signup for each of these is free, and should only take you a few minutes if you 
 
         $ curl localhost:8000/todos
         []
+
+1. Run the test suite
+
+        $ docker-compose -p tests run -p 8000 --rm web python manage.py test
+    Applied options:
+    - `-p tests` - to isolate the tests into their own `tests` environment
+    - `-p 8000` - to create a random port to prevent port collision
+    - `--rm` - to remove the containers
+
+1. .
