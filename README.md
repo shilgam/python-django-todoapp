@@ -25,6 +25,6 @@ Signup for each of these is free, and should only take you a few minutes if you 
 
 1. Clone the repo
 
-1. Build the Docker image:
+1. Build the application
 
-        $ docker build .
+        $ docker-compose up
