@@ -28,3 +28,12 @@ Signup for each of these is free, and should only take you a few minutes if you 
 1. Build the application
 
         $ docker-compose up
+
+1. Migrate the database schema
+
+        $ docker-compose exec web python manage.py migrate
+
+1. Try out the API
+
+        $ curl localhost:8000/todos
+        []
