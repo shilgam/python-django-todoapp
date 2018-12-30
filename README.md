@@ -46,4 +46,18 @@ Signup for each of these is free, and should only take you a few minutes if you 
     - `-p 8000` - to create a random port to prevent port collision
     - `--rm` - to remove the containers
 
-1. .
+
+## Continuous Integration with Codeship
+
+1. Test your setup locally using 'Codeship Jet CLI' (see [Getting Started docs](https://documentation.codeship.com/pro/jet-cli/usage-overview/)):
+
+        $ jet steps
+        ...
+        (step: test) success ✔
+    > Jet CLI will run through the steps file just as it would on Codeship. This is a quick way to catch errors early before committing and pushing to your repository.
+
+1. Create your own repository in any of Git Repository service (Github, Bitbucket, Gitlab) and push your code to the repo
+
+1. [Create project in Codeship](https://documentation.codeship.com/pro/quickstart/codeship-configuration/#setting-up-a-new-project)
+
+1. Push a new commit to trigger a new build on Codeship
