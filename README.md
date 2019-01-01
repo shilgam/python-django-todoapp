@@ -109,5 +109,26 @@ When the branch is `master`, run another step to actually **deploy** the app whe
         $ jet encrypt deployment.env deployment.env.encrypted
     The `deployment.env.encrypted` will then be included in your repository and decrypted in Codeship.
 
+1. Add the Heroku deployment service:
+
+        # codeship-services.yml file
+        codeship_heroku_deployment:
+        image: codeship/heroku-deployment
+        encrypted_env_file: deployment.env.encrypted
+        volumes:
+        - ./:/deploy
+
+1. Add the deployment step:
+
+        # codeship-steps.yml file
+        - name: deploy
+          tag: master
+          service: codeship_heroku_deployment
+          command: codeship_heroku deploy /deploy python-django-todoapp
+    Notes:
+    - If the branch, listed as tag, is equal to master, it will run the deploy service.
+    - If we push to any other branch, everything will run except the deployment.
+    - The image `codeship/heroku-deployment` has the command `codeship_heroku deploy`, which accepts two parameters: the path of the files and the name of the Heroku app.
+
 NOTE:
 - `*` - ignore step if it was done before
