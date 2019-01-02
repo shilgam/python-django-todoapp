@@ -61,3 +61,74 @@ Signup for each of these is free, and should only take you a few minutes if you 
 1. [Create project in Codeship](https://documentation.codeship.com/pro/quickstart/codeship-configuration/#setting-up-a-new-project)
 
 1. Push a new commit to trigger a new build on Codeship
+
+
+## Continuous Deployment to Heroku
+When the branch is `master`, run another step to actually **deploy** the app when the tests are passing.
+
+1. \* [Create](https://signup.heroku.com/) and configure a new Heroku account
+
+1. \* Check to see if your system already has the [Heroku command-line client](https://devcenter.heroku.com/articles/heroku-cli) installed:
+
+        $ heroku --version
+
+1. \* Log in and add your SSH key:
+
+        $ heroku login
+        $ heroku keys:add
+
+1. Create a place on the Heroku servers for the app:
+
+        $ heroku create       # randomly named
+        $ heroku create myapp # named
+
+1. Deploy the app:
+
+        $ git push heroku master
+
+1. [Set up the Heroku PostgreSQL add-on](https://elements.heroku.com/addons/heroku-postgresql) for your app to use as its database when deployed.
+
+1. Create environment variable from your Heroku API key (which can be found in [Heroku Account Settings Page](https://dashboard.heroku.com/account)):
+
+        $ echo "HEROKU_API_KEY=YOUR_API_KEY_HERE" > deployment.env
+    Make sure that `deployment.env` file ignored in your `.gitignore`.
+
+1. Create the Heroku procfile:
+
+        $ echo "release: python manage.py migrate
+                web: gunicorn todosapp.wsgi:application" > Procfile
+    This is a simple command, but it’s required for Heroku to run the app.
+
+1. Save your Codeship AES Key (Project Settings > General > "AES Key" section) in your repository root:
+
+        $ echo "YOUR_AES_KEY" > codeship.aes
+    Make sure that `codeship.aes` file ignored in your `.gitignore`.
+
+1. Encrypt the `deployment.env` file. We do this using Codeship Jet CLI ([docs](https://documentation.codeship.com/pro/builds-and-configuration/environment-variables/#encrypting-your-environment-variables)):
+
+        $ jet encrypt deployment.env deployment.env.encrypted
+    The `deployment.env.encrypted` will then be included in your repository and decrypted in Codeship.
+
+1. Add the Heroku deployment service:
+
+        # codeship-services.yml file
+        codeship_heroku_deployment:
+        image: codeship/heroku-deployment
+        encrypted_env_file: deployment.env.encrypted
+        volumes:
+        - ./:/deploy
+
+1. Add the deployment step:
+
+        # codeship-steps.yml file
+        - name: deploy
+          tag: master
+          service: codeship_heroku_deployment
+          command: codeship_heroku deploy /deploy python-django-todoapp
+    Notes:
+    - If the branch, listed as tag, is equal to master, it will run the deploy service.
+    - If we push to any other branch, everything will run except the deployment.
+    - The image `codeship/heroku-deployment` has the command `codeship_heroku deploy`, which accepts two parameters: the path of the files and the name of the Heroku app.
+
+NOTE:
+- `*` - ignore step if it was done before
