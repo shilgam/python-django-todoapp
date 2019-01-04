@@ -1,4 +1,5 @@
 # python-django-todoapp
+[![Codeship Status for shilgam/python-django-todoapp](https://app.codeship.com/projects/49045710-eea3-0136-fd11-0aadc339175b/status?branch=master)](/projects/320136)
 
 ## Overview
 This is a `todo` API example developed with Python and the Django Rest Framework.
