@@ -64,8 +64,7 @@ Signup for each of these is free, and should only take you a few minutes if you 
 1. Push a new commit to trigger a new build on Codeship
 
 
-## Continuous Deployment to Heroku
-When the branch is `master`, run another step to actually **deploy** the app when the tests are passing.
+## Deployment to Heroku
 
 1. \* [Create](https://signup.heroku.com/) and configure a new Heroku account
 
@@ -83,10 +82,6 @@ When the branch is `master`, run another step to actually **deploy** the app whe
         $ heroku create       # randomly named
         $ heroku create myapp # named
 
-1. Deploy the app:
-
-        $ git push heroku master
-
 1. [Set up the Heroku PostgreSQL add-on](https://elements.heroku.com/addons/heroku-postgresql) for your app to use as its database when deployed.
 
 1. Create environment variable from your Heroku API key (which can be found in [Heroku Account Settings Page](https://dashboard.heroku.com/account)):
@@ -99,6 +94,16 @@ When the branch is `master`, run another step to actually **deploy** the app whe
         $ echo "release: python manage.py migrate
                 web: gunicorn todosapp.wsgi:application" > Procfile
     This is a simple command, but it’s required for Heroku to run the app.
+
+1. Deploy the app:
+
+        $ git push heroku master              # master branch
+        $ git push heroku your_branch:master  # another branch
+
+
+## Continuous Deployment to Heroku
+
+When the branch is `master`, run another step to actually **deploy** the app when the tests are passing.
 
 1. Save your Codeship AES Key (Project Settings > General > "AES Key" section) in your repository root:
 
