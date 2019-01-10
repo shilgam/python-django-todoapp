@@ -5,6 +5,10 @@
 This is a `todo` API example developed with Python and the Django Rest Framework.
 The goal of this workshop is to build a continuous deployment pipeline to Heroku using Codeship Pro.
 
+Posts:
+* Part 1 - [Using Docker Compose for Python Development](https://blog.codeship.com/using-docker-compose-for-python-development/)
+* Part 2 - [Creating a CI/CD pipeline using Codeship Pro](https://blog.codeship.com/using-codeship-for-python-application-deployments/)
+
 ## Getting Started
 
 There are a few resources to make sure you have available during this guide.
