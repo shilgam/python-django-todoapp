@@ -5,6 +5,10 @@
 This is a `todo` API example developed with Python and the Django Rest Framework.
 The goal of this workshop is to build a continuous deployment pipeline to Heroku using Codeship Pro.
 
+Posts:
+* Part 1 - [Using Docker Compose for Python Development](https://blog.codeship.com/using-docker-compose-for-python-development/)
+* Part 2 - [Creating a CI/CD pipeline using Codeship Pro](https://blog.codeship.com/using-codeship-for-python-application-deployments/)
+
 ## Getting Started
 
 There are a few resources to make sure you have available during this guide.
@@ -64,8 +68,7 @@ Signup for each of these is free, and should only take you a few minutes if you 
 1. Push a new commit to trigger a new build on Codeship
 
 
-## Continuous Deployment to Heroku
-When the branch is `master`, run another step to actually **deploy** the app when the tests are passing.
+## Deployment to Heroku
 
 1. \* [Create](https://signup.heroku.com/) and configure a new Heroku account
 
@@ -83,10 +86,6 @@ When the branch is `master`, run another step to actually **deploy** the app whe
         $ heroku create       # randomly named
         $ heroku create myapp # named
 
-1. Deploy the app:
-
-        $ git push heroku master
-
 1. [Set up the Heroku PostgreSQL add-on](https://elements.heroku.com/addons/heroku-postgresql) for your app to use as its database when deployed.
 
 1. Create environment variable from your Heroku API key (which can be found in [Heroku Account Settings Page](https://dashboard.heroku.com/account)):
@@ -99,6 +98,16 @@ When the branch is `master`, run another step to actually **deploy** the app whe
         $ echo "release: python manage.py migrate
                 web: gunicorn todosapp.wsgi:application" > Procfile
     This is a simple command, but it’s required for Heroku to run the app.
+
+1. Deploy the app:
+
+        $ git push heroku master              # master branch
+        $ git push heroku your_branch:master  # another branch
+
+
+## Continuous Deployment to Heroku
+
+When the branch is `master`, run another step to actually **deploy** the app when the tests are passing.
 
 1. Save your Codeship AES Key (Project Settings > General > "AES Key" section) in your repository root:
 
